@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+      <head>
+        <title>Registro Empleado</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/libs/jquery/jquery.js" type="text/javascript"></script>
+        <style>
+
+            input{
+                padding-bottom: 10px;
+                padding-left: 5px;
+                color:#000066;
+                margin-left: 100px;
+                font-weight:bold;
+            }
+            section{
+                margin-top: 100px;
+                margin-left: 300px;
+            }
+            fieldset{
+                width: 600px;
+            }
+        </style>
+        <script>
+            $(document).ready(function() {
+                $("#btnConsultar").click(function() {
+                    $.ajax({type: "GET",
+                        url: "app/ejemplo",
+                        dataType: "json",
+                        contentType: "text/plain"}).done(function(msg) {
+                        //msg.forEach(function(clg){
+                        //alert(clg.curso.descripcion);
+                        //});
+
+                        
+                        $("#txtnom").val(msg[0].nombre);
+                        $("#txtcar").val(msg[0].cargo);                        
+                        $("#txtced").val(msg[0].cedula);
+                        $("#txttel").val(msg[0].telefono);                        
+                        $("#txtdir").val(msg[0].direccion);
+                    });
+                });
+                $("#btnIngresar").click(function() {
+                   
+                    varnombre = $("#txtnom").val();
+                    varcargo = $("#txtcar").val();                    
+                    varcedula = $("#txtced").val();
+                    vartelefono = $("#txttel").val();                    
+                    vardireccion = $("#txtdir").val();
+                    variable = {"nombre": varnombre, "cargo": varcargo,
+                       "cedula": varcedula, "telefono": vartelefono, "direccion": vardireccion};
+                    $.ajax({type: "POST",
+                        url: "app/ejemplo",
+                        dataType: "text",
+                        contentType: "application/json",
+                        data: JSON.stringify(variable)}).done(function(msg) {
+                        alert(msg);
+                    });
+                });
+                $("#btnModificar").click(function() {
+                     varnombre = $("#txtnom").val();
+                    varcargo = $("#txtcar").val();                    
+                    varcedula = $("#txtced").val();
+                    vartelefono = $("#txttel").val();                    
+                    vardireccion = $("#txtdir").val();
+                    variable = {"nombre": varnombre, "cargo": varcargo,
+                       "cedula": varcedula, "telefono": vartelefono, "direccion": vardireccion};
+                    $.ajax({type: "PUT",
+                        url: "app/ejemplo",
+                        dataType: "text",
+                        contentType: "application/json",
+                        data: JSON.stringify(variable)}).done(function(msg) {
+                        alert(msg);
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <section>
+            <form>
+                <fieldset>
+                    <legend>Registrar Empleado</legend>
+
+                    
+
+                    <input type="text" id="txtdir" required placeholder="direccion"/>
+                    <br><br>
+                    <input type="text" id="txtnom" required placeholder="nombre"/>
+                    <input type="text" id="txtced" required placeholder="cedula"/>
+                    <br><br>
+                    <input type="text" id="txtcar" required placeholder="cargo"/>
+                    <input type="text" id="txttel" required placeholder="telefono"/>
+                   
+
+
+                    <br><br>
+                    <input class="boton" type="button" id="btnIngresar" value='Registar'/>
+                    <input class="boton" type ="button" id="btnModificar" value="Modificar">
+                    <input class="boton" type ="button" id="btnEliminar" value="Eliminar">
+                    <br>
+                    <br>
+                    <input class="boton" type="button" id="btnConsultar" value="Consultar">
+                </fieldset>
+            </form>
+        </section>
+    </body>
+</html>
